@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_03_152803) do
+ActiveRecord::Schema.define(version: 2022_06_03_181338) do
+
+  create_table "pokemons", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "weight", null: false
+    t.integer "height", null: false
+    t.string "sprite_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pokemons_types", force: :cascade do |t|
+    t.integer "pokemon_id", null: false
+    t.string "type_id", null: false
+    t.index ["pokemon_id"], name: "index_pokemons_types_on_pokemon_id"
+    t.index ["type_id"], name: "index_pokemons_types_on_type_id"
+  end
+
+  create_table "types", id: :string, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
