@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_03_181338) do
+ActiveRecord::Schema.define(version: 2022_06_04_154351) do
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name", null: false
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2022_06_03_181338) do
     t.string "sprite_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_pokemons_on_name", unique: true
   end
 
   create_table "pokemons_types", force: :cascade do |t|

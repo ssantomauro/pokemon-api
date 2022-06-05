@@ -1,0 +1,24 @@
+{
+  "name": "venusaur",
+  "height": 5,
+  "sprites": {
+    "other": {
+      "official-artwork": {
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+      }
+    }
+  },
+  "types": [
+    {
+      "type": {
+        "name": "electric"
+      }
+    },
+    {
+      "type": {
+        "name": "poison"
+      }
+    }
+  ],
+  "weight": 6
+}
