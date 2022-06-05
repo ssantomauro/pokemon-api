@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_04_154351) do
+ActiveRecord::Schema.define(version: 2022_06_05_162734) do
+
+  create_table "captures", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "pokemon_id", null: false
+    t.string "nickname"
+    t.integer "level", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pokemon_id"], name: "index_captures_on_pokemon_id"
+    t.index ["user_id"], name: "index_captures_on_user_id"
+  end
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name", null: false

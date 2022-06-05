@@ -72,15 +72,81 @@ RSpec.describe('Pokemons', type: :request) do
       get("/api/pokemons/#{input_param}", headers: headers)
     end
 
-    it('fetches the pokemon by id') do
-      expect(JSON.parse(response.body, symbolize_names: true)).to eq(expected)
+    context('when the input parameter is an integer (pokemon id)') do
+      it('fetches the pokemon by id') do
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq(expected)
+      end
+
+      context('when the pokemon with the id specified does not exists') do
+        let(:input_param) { pokemons.length + 1 }
+
+        it('raises a not found') do
+          expect(response.status).to be(404)
+        end
+      end
     end
 
     context('when the input parameter is a string (pokemon name)') do
       let(:input_param) { pokemon.name }
 
-      it('fetches the pokemon by id') do
+      it('fetches the pokemon by name') do
         expect(JSON.parse(response.body, symbolize_names: true)).to eq(expected)
+      end
+
+      context('when the pokemon with the id specified does not exists') do
+        let(:input_param) { 'foo' }
+
+        it('raises a not found') do
+          expect(response.status).to be(404)
+        end
+      end
+    end
+  end
+
+  describe('capture') do
+    let(:pokemon) { pokemons[5] }
+    let(:input_param) { pokemon.id }
+    let(:params) { {} }
+
+    before do
+      post("/api/pokemons/#{input_param}/capture", params: params, headers: headers)
+    end
+
+    it('creates a new capture record for the user') do
+      expect(response.status).to be(200)
+
+      capture = Capture.last
+      expected = {
+        nickname: nil,
+        level: capture.level,
+        pokemon: ActiveModel::SerializableResource.new(pokemon, serializer: PokemonListItemSerializer).as_json
+      }
+      expect(JSON.parse(response.body, symbolize_names: true)).to include(expected)
+    end
+
+    context('when the nickname is sent') do
+      let(:params) do
+        { nickname: 'custom_pokemon_name' }
+      end
+
+      it('creates a new capture record for the user') do
+        expect(response.status).to be(200)
+
+        capture = Capture.last
+        expected = {
+          nickname: params[:nickname],
+          level: capture.level,
+          pokemon: ActiveModel::SerializableResource.new(pokemon, serializer: PokemonListItemSerializer).as_json
+        }
+        expect(JSON.parse(response.body, symbolize_names: true)).to include(expected)
+      end
+    end
+
+    context('when the pokemon with the id specified does not exists') do
+      let(:input_param) { pokemons.length + 1 }
+
+      it('raises a not found') do
+        expect(response.status).to be(404)
       end
     end
   end

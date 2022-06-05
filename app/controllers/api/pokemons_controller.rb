@@ -1,7 +1,6 @@
-# frozen_string_literal: true
-
 module Api
   class PokemonsController < ApplicationController
+    include(PokemonHelper)
 
     before_action(:authenticate_user!)
 
@@ -24,17 +23,31 @@ module Api
     def show
       pokemon =
         strong_params[:pokemon_id] ?
-          Pokemon.find_by_id(strong_params[:pokemon_id]) :
-          Pokemon.find_by_name(strong_params[:pokemon_name])
-      return render(status: :not_found) if pokemon.nil?
+          Pokemon.find(strong_params[:pokemon_id]) :
+          Pokemon.find_by_name!(strong_params[:pokemon_name])
 
       render(json: pokemon)
+    end
+
+    def capture
+      pokemon =
+        strong_params[:pokemon_id] ?
+          Pokemon.find(strong_params[:pokemon_id]) :
+          Pokemon.find_by_name!(strong_params[:pokemon_name])
+
+      level = calculate_level(pokemon: pokemon)
+      capture = current_user.captures.create!(pokemon: pokemon, level: level, nickname: strong_params[:nickname])
+
+      # I'm using the HTTP code 200 and not the 201 because we don't have a `capture#show` for this API,
+      # thus it doesn't make sense sending the `/api/captures/:id` url into the `Location` header with HTTP 201
+      # (which is the suggested behavior when it creates a new resource)
+      render(json: capture, status: :ok)
     end
 
     private
 
     def strong_params
-      @strong_params ||= params.permit(:pokemon_id, :pokemon_name, :page, :per_page)
+      @strong_params ||= params.permit(:pokemon_id, :pokemon_name, :page, :per_page, :nickname)
     end
   end
 end
