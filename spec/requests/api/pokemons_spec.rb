@@ -8,7 +8,11 @@ RSpec.describe('Pokemons', type: :request) do
   let(:pokemons) do
     # I'm customizing the `created_at` to ensure the expected order is equal to the API controller result order
     now = Time.zone.now
-    25.times.map { |i| create(:pokemon, created_at: now + i) }
+    pokemons = 25.times.map { |i| create(:pokemon, created_at: now + i) }
+    # I'm adding 5 "real" pokemons
+    pokemons += (25...30).map { |i| create(:pokemon, category: 'real', created_at: now + i) }
+
+    pokemons
   end
 
   before do
@@ -18,11 +22,12 @@ RSpec.describe('Pokemons', type: :request) do
   describe('index') do
     let(:page) { 1 }
     let(:per_page) { 20 }
+    let(:count) { pokemons.size }
     let(:fetched_pokemons) { pokemons.first(per_page) }
 
     let(:expected) do
       {
-        count: pokemons.size,
+        count: count,
         page: page,
         per_page: per_page,
         results: ActiveModel::SerializableResource.new(fetched_pokemons, each_serializer: PokemonListItemSerializer).as_json
@@ -52,6 +57,20 @@ RSpec.describe('Pokemons', type: :request) do
         expect(JSON.parse(response.body, symbolize_names: true)).to eq(expected)
       end
     end
+
+    context('when `category` is specified') do
+      let(:fetched_pokemons) { pokemons.select { |pokemon| pokemon.category == 'real' } }
+      let(:category) { 'real' }
+      let(:count) { 5 }
+
+      let(:params) do
+        { category: category }
+      end
+
+      it('fetches the pokemons by `category`') do
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq(expected)
+      end
+    end
   end
 
   describe('show') do
@@ -64,6 +83,7 @@ RSpec.describe('Pokemons', type: :request) do
         sprite_url: pokemon.sprite_url,
         weight: pokemon.weight,
         height: pokemon.height,
+        category: pokemon.category,
         types: ActiveModel::SerializableResource.new(pokemon.types).as_json
       }
     end

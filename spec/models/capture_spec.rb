@@ -21,7 +21,7 @@ RSpec.describe(Capture, type: :model) do
     end
   end
 
-  describe("associations") do
+  describe('associations') do
     it { should belong_to(:user).without_validating_presence }
     it { should belong_to(:pokemon).without_validating_presence }
   end

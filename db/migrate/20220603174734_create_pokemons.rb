@@ -1,4 +1,5 @@
 class CreatePokemons < ActiveRecord::Migration[5.2]
+
   def change
     # I'm not setting any limit on the string field because I don't know
     # the Pokemon API specification, but in a production application
@@ -11,8 +12,6 @@ class CreatePokemons < ActiveRecord::Migration[5.2]
 
       t.timestamps(null: false)
     end
-
-    # Here I would probably add an index on 'name' looking at the information I have for this exercise,
-    # the index is not necessary
   end
+
 end

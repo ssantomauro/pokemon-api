@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_05_162734) do
+ActiveRecord::Schema.define(version: 2022_06_06_120406) do
 
   create_table "captures", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2022_06_05_162734) do
     t.string "sprite_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "category", default: "real", null: false
     t.index ["name"], name: "index_pokemons_on_name", unique: true
   end
 
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_06_05_162734) do
     t.string "jti", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "user", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
   end

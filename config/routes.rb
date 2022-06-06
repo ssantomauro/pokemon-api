@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         post('/sign_up', to: 'registrations#create')
       end
     end
+    namespace(:admin) do
+      post('/pokemons', to: 'pokemons#create')
+    end
     get('/pokemons', to: 'pokemons#index')
     get('/pokemons/:pokemon_id', :pokemon_id => /\d+/, to: 'pokemons#show')
     get('/pokemons/:pokemon_name', :pokemon_name => /[A-Za-z0-9]+/ , to: 'pokemons#show')

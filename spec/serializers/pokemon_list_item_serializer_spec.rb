@@ -9,7 +9,8 @@ RSpec.describe(PokemonListItemSerializer) do
       id: pokemon.id,
       name: pokemon.name,
       sprite_url: pokemon.sprite_url,
-      details_link: "/api/pokemons/#{pokemon.id}"
+      details_link: "/api/pokemons/#{pokemon.id}",
+      category: pokemon.category
     }
   end
 

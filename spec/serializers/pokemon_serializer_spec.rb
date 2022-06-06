@@ -18,6 +18,7 @@ RSpec.describe(PokemonSerializer) do
       sprite_url: pokemon.sprite_url,
       weight: pokemon.weight,
       height: pokemon.height,
+      category: pokemon.category,
       types: ActiveModel::SerializableResource.new(pokemon.types).as_json
     }
   end

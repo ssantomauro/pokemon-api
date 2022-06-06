@@ -4,5 +4,6 @@ FactoryBot.define do
     weight { rand(100) }
     height { rand(100) }
     sequence(:sprite_url) { |n| "http://example.com/PokeAPI/sprite_url_#{n}" }
+    category { 'custom' }
   end
 end

@@ -2,13 +2,14 @@ require('rails_helper')
 
 RSpec.describe(Pokemon, type: :model) do
   subject(:model) do
-    described_class.new(name: name, weight: weight, height: height, sprite_url: sprite_url)
+    described_class.new(name: name, weight: weight, height: height, sprite_url: sprite_url, category: category)
   end
 
   let(:name) { 'name' }
   let(:weight) { 0 }
   let(:height) { 0 }
   let(:sprite_url) { 'http://example.com/PokeAPI/sprite_url' }
+  let(:category) { 'custom' }
 
   it('is valid with all attributes') do
     expect(model).to be_valid
@@ -54,7 +55,15 @@ RSpec.describe(Pokemon, type: :model) do
     end
   end
 
-  describe("associations") do
+  context('when the category is not in the CATEGORIES list') do
+    let(:category) { 'foo' }
+
+    it('raises a validation error') do
+      expect(model).to_not be_valid
+    end
+  end
+
+  describe('associations') do
     it { should have_many(:types) }
   end
 

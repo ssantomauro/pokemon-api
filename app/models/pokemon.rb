@@ -1,5 +1,7 @@
 class Pokemon < ApplicationRecord
 
+  CATEGORIES = %w[real custom]
+
   # It is not important this default order, but I've added it just because of the pagination.
   # Even if the default order by ID should be fine, I preferred define an order by creation time
   default_scope { order(:created_at) }
@@ -12,6 +14,7 @@ class Pokemon < ApplicationRecord
   has_many(:types, through: :pokemons_types)
 
   validates_presence_of(:name, :weight, :height, :sprite_url)
+  validates(:category, presence: true, inclusion: { in: CATEGORIES })
 
   # This is a simple regex I've used in other projects, but should me customized based on the real possible inputs
   URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix

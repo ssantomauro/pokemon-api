@@ -1,10 +1,10 @@
 class PokemonListItemSerializer < ActiveModel::Serializer
+  include(PokemonHelper)
 
-  attributes(:id, :name, :sprite_url, :details_link)
+  attributes(:id, :name, :sprite_url, :category, :details_link)
 
   def details_link
-    "/api/pokemons/#{object.id}"
+    create_details_link(object)
   end
-
 
 end
