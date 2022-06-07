@@ -49,6 +49,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    apipie-rails (0.8.1)
+      actionpack (>= 5.0)
+      activesupport (>= 5.0)
     arel (9.0.0)
     bcrypt (3.1.18)
     bootsnap (1.12.0)
@@ -227,6 +230,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10)
+  apipie-rails (~> 0.8)
   bootsnap (>= 1.1.0)
   byebug
   devise (~> 4.6)

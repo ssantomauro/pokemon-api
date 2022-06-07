@@ -20,6 +20,7 @@ gem 'devise', '~> 4.6'
 gem 'devise-jwt', '~> 0.5'
 gem 'kaminari', '~> 1.2'
 gem 'active_model_serializers', '~> 0.10'
+gem 'apipie-rails', '~> 0.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
