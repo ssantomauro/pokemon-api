@@ -1,5 +1,7 @@
 # README
 
+**IMPORTANT**: this project is a coding challenge developed for an interview. The requirements were explicitly specified from the company.
+
 ## Project setup
 
 To setup the local database, please follow the steps:
